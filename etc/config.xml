@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <easteregg>
+            <general>
+                <enabled>1</enabled>
+                <default_egg_width>50</default_egg_width>
+                <default_egg_height>50</default_egg_height>
+            </general>
+        </easteregg>
+    </default>
+</config>
