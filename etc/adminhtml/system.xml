@@ -24,6 +24,10 @@
                     <label>Default egg height</label>
                     <comment>Height in px, example: 50</comment>
                 </field>
+                <field id="images" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Images</label>
+                    <comment><![CDATA[Add list of images here following this special format example:<br/>im_1.png,im_2.png,im_3.png,im_4.png,im_5.png,im_6.png,im_7.png,im_8.png<br/>You need also to upload your images to app/code/Godogi/EasterEggHunt/view/frontend/web/images]]></comment>
+                </field>
                 <field id="discount_code" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Discount code</label>
                     <comment><![CDATA[You need to create a cart rule for it, if you don't know how check <a target="_blank" href="https://docs.magento.com/m2/ce/user_guide/marketing/price-rules-cart-coupon.html">this tutorial</a>.]]></comment>
