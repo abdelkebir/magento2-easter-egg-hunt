@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="easteregg" translate="label" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Easter Egg</label>
+            <tab>customer</tab>
+            <resource>Godogi_EasterEggHunt::easteregg_config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General Configuration</label>
+                <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="default_egg_width" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Default egg width</label>
+                    <comment>Width in px, example: 50</comment>
+                </field>
+                <field id="default_egg_height" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Default egg height</label>
+                    <comment>Height in px, example: 50</comment>
+                </field>
+                <field id="discount_code" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Discount code</label>
+                    <comment>You need to create a cart rule for it, if you don't know how check <a href="https://docs.magento.com/m2/ce/user_guide/marketing/price-rules-cart-coupon.html">this tutorial.</a></comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
