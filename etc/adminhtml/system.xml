@@ -22,7 +22,7 @@
                 </field>
                 <field id="discount_code" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Discount code</label>
-                    <comment>You need to create a cart rule for it, if you don't know how check <a href="https://docs.magento.com/m2/ce/user_guide/marketing/price-rules-cart-coupon.html">this tutorial.</a></comment>
+                    <comment><![CDATA[You need to create a cart rule for it, if you don't know how check <a target="_blank" href="https://docs.magento.com/m2/ce/user_guide/marketing/price-rules-cart-coupon.html">this tutorial</a>.]]></comment>
                 </field>
             </group>
         </section>
