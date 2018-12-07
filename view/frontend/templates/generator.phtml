@@ -1,0 +1,10 @@
+<?php
+if($this->isCustomerLoggedIn()){
+	$randomNumber = rand(1, 1/*$this->getDensity()*/);
+	if($randomNumber == 1){
+		$eggs = $this->getEggs();
+		foreach($eggs as $egg){
+			echo '<img data-egg="' . $egg . '" style="width:' . $this->getWidth() . 'px; height:' . $this->getheight() . 'px;"  src="' . $this->getImageUrl($egg) . '">';
+		}
+	}
+}
