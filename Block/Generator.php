@@ -37,6 +37,9 @@ class Generator extends \Magento\Framework\View\Element\Template
 	public function getDensity(){
 		return $this->getConfig("easteregg/general/density");
     }
+    public function getImages(){
+		return $this->getConfig("easteregg/general/images");
+    }
 	public function getConfig($config) {
         return $this->_scopeConfig->getValue($config, "websites");
     }

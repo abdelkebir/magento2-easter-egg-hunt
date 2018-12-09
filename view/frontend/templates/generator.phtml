@@ -8,3 +8,28 @@ if($this->isCustomerLoggedIn()){
 		}
 	}
 }
+?>
+<script type="text/javascript">
+require(
+    [
+        'jquery',
+        'domReady!'
+    ],
+    function ($) {
+    	var images = "<?php echo $this->getImages(); ?>";
+    	images = images.split(",");
+    	for(var i=0 ; i<images.length ; i++){
+			document.body.innerHTML = document.body.innerHTML.replace('[egg id="'+i+'"]', '<span class="easter-cntr" data-id="'+i+'"><img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+images[i]+'"></span>');
+		}
+		
+    }
+);
+</script>
+<style type="text/css">
+	.easter-cntr{
+		cursor: pointer;
+	}
+	.easter-cntr img{
+		
+	}
+</style>
