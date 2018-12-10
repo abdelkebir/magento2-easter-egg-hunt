@@ -82,8 +82,7 @@ class Saveeggcus extends \Magento\Framework\App\Action\Action {
 
         return $resultJson->setData([
                     'message' => $message,
-                    'foundEggs' => $foundEggs,
-                    'numberEggs' => $numberEggs,
+                    'numberFoundEggs' => count($foundEggs),
                     'error' => $error
         ]);
     }

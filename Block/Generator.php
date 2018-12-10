@@ -33,9 +33,21 @@ class Generator extends \Magento\Framework\View\Element\Template
 		}
 		return implode(",",$savedEggs);
 	}
-	public function getTutoTxt(){
-        	return 'This is our tuto to learn Magento 2 programming!';
-   	}
+	public function getCouponCode(){
+		return $this->getConfig("easteregg/general/discount_code");
+	}
+	public function getFoundEggsTitle(){
+		return $this->getConfig("easteregg/general/found_title");
+	}
+	public function getFoundEggsMessage(){
+		return $this->getConfig("easteregg/general/found_message");
+	}
+	public function getFoundAllEggsTitle(){
+		return $this->getConfig("easteregg/general/all_found_title");
+	}
+	public function getFoundAllEggsMessage(){
+		return $this->getConfig("easteregg/general/all_found_message");
+	}
    	public function isCustomerLoggedIn(){
 	    return $this->_customerSession->isLoggedIn();
 	}

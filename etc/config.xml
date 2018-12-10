@@ -10,6 +10,10 @@
                 <images>im_1.png,im_2.png,im_3.png,im_4.png,im_5.png,im_6.png,im_7.png,im_8.png</images>
                 <not_logged_in_users_message>We are sorry, you should be logged in to use this functionality.</not_logged_in_users_message>
                 <not_logged_in_users_title>Not Logged In</not_logged_in_users_title>
+                <found_title>You have found an egg</found_title>
+                <found_message>You have found a total of [eggs_found] eggs</found_message>
+                <all_found_title>All eggs found</all_found_title>
+                <all_found_message>You have found all the eggs! use coupon-code [coupon_code] in the shop for a 15% discount!</all_found_message>
             </general>
         </easteregg>
     </default>
