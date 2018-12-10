@@ -8,6 +8,8 @@
                 <default_egg_width>38</default_egg_width>
                 <default_egg_height>50</default_egg_height>
                 <images>im_1.png,im_2.png,im_3.png,im_4.png,im_5.png,im_6.png,im_7.png,im_8.png</images>
+                <not_logged_in_users_message>We are sorry, you should be logged in to use this functionality.</not_logged_in_users_message>
+                <not_logged_in_users_title>Not Logged In</not_logged_in_users_title>
             </general>
         </easteregg>
     </default>

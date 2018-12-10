@@ -32,6 +32,12 @@
                     <label>Discount code</label>
                     <comment><![CDATA[You need to create a cart rule for it, if you don't know how check <a target="_blank" href="https://docs.magento.com/m2/ce/user_guide/marketing/price-rules-cart-coupon.html">this tutorial</a>.]]></comment>
                 </field>
+                <field id="not_logged_in_users_title" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Title for not logged in users</label>
+                </field>
+                <field id="not_logged_in_users_message" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Message for not logged in users</label>
+                </field>
             </group>
         </section>
     </system>

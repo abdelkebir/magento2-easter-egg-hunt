@@ -1,6 +1,7 @@
 <?php
+/*
 if($this->isCustomerLoggedIn()){
-	$randomNumber = rand(1, 1/*$this->getDensity()*/);
+	$randomNumber = rand(1, 1);
 	if($randomNumber == 1){
 		$eggs = $this->getEggs();
 		foreach($eggs as $egg){
@@ -8,20 +9,97 @@ if($this->isCustomerLoggedIn()){
 		}
 	}
 }
+*/
 ?>
+<form id="saveeggcus" action="/eastereggs/easteregg/saveeggcus/">
+	<?= $block->getBlockHtml('formkey') ?>
+	<input type="hidden" name="egg_id" id="egg_id">
+</form>
+
+<div id="popup-modal-notloggedin" style="display: none;">
+	<?php echo $this->getNotLoggedInUsersMessage(); ?>
+</div>
+
+
 <script type="text/javascript">
 require(
     [
         'jquery',
+        'Magento_Ui/js/modal/modal',
         'domReady!'
     ],
-    function ($) {
-    	var images = "<?php echo $this->getImages(); ?>";
-    	images = images.split(",");
-    	for(var i=0 ; i<images.length ; i++){
-			document.body.innerHTML = document.body.innerHTML.replace('[egg id="'+i+'"]', '<span class="easter-cntr" data-id="'+i+'"><img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+images[i]+'"></span>');
+    function ($, modal) {
+    	var allEggs = "<?php echo $this->getImages(); ?>";
+    	var savedEggs = "<?php echo $this->getSavedEggs(); ?>";
+    	allEggs = allEggs.split(",");
+    	savedEggs = savedEggs.split(",");
+
+    	console.log('allEggs: '+allEggs);
+    	console.log('savedEggs: '+savedEggs);
+
+    	for(var i=0 ; i<allEggs.length ; i++){
+    		var exist = false;
+    		for(var j=0 ; j<savedEggs.length ; j++){
+    			if(savedEggs[j] == i){
+    				exist = true;
+    			}
+    		}
+    		if(exist){
+    			document.body.innerHTML = document.body.innerHTML.replace('[egg id="'+i+'"]', '');
+    		}else{
+    			document.body.innerHTML = document.body.innerHTML.replace('[egg id="'+i+'"]', '<span class="easter-cntr" data-id="'+i+'"><img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+allEggs[i]+'"></span>');
+    		}
+    		
+			
 		}
-		
+		$('.easter-cntr').click(function(){
+			<?php
+			if($this->isCustomerLoggedIn()){
+				?>
+				$('#egg_id').val($(this).data('id'));
+				$.ajax({
+		            url: "/eastereggs/easteregg/saveeggcus/",
+		            type: "POST",
+		            data: $('form#saveeggcus').serialize(),
+		            showLoader: true,
+		            success: function (response) {
+	            		console.log('error: '+response.error);
+                        console.log('message: '+response.message);
+                        console.log('foundEggs: '+response.foundEggs);
+                        console.log('numberEggs: '+response.numberEggs);
+		            },
+		            error: function (response) {
+		                console.log('error: '+response.error);
+                        console.log('message: '+response.message);
+                        console.log('foundEggs: '+response.foundEggs);
+		            }
+		        });
+		        <?php
+			}else{
+				?>
+					var options = {
+		                type: 'popup',
+		                responsive: true,
+		                innerScroll: true,
+		                title: "<?php echo $this->getNotLoggedInUsersTitle(); ?>",
+		                buttons: [{
+		                    text: $.mage.__('Continue'),
+		                    class: '',
+		                    click: function () {
+		                        this.closeModal();
+		                    }
+		                }]
+		            };
+
+            		var popup = modal(options, $('#popup-modal-notloggedin'));
+            		$("#popup-modal-notloggedin .modal-footer").hide();
+					$("#popup-modal-notloggedin").modal("openModal");
+				<?php
+			}
+			?>
+			$(this).remove();
+		});
+
     }
 );
 </script>
