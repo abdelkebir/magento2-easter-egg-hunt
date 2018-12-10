@@ -1,5 +1,5 @@
 <?php
-namespace Godogi\Tuto\Setup;
+namespace Godogi\EasterEggHunt\Setup;
  
 use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
