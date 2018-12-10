@@ -3,7 +3,7 @@
     <system>
         <section id="easteregg" translate="label" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
-            <label>Easter Egg</label>
+            <label>Easter Egg Hunt</label>
             <tab>customer</tab>
             <resource>Godogi_EasterEggHunt::easteregg_config</resource>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
@@ -31,6 +31,20 @@
                 <field id="discount_code" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Discount code</label>
                     <comment><![CDATA[You need to create a cart rule for it, if you don't know how check <a target="_blank" href="https://docs.magento.com/m2/ce/user_guide/marketing/price-rules-cart-coupon.html">this tutorial</a>.]]></comment>
+                </field>
+                <field id="found_title" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Title for found eggs</label>
+                </field>
+                <field id="found_message" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Message for found eggs</label>
+                    <comment><![CDATA[Use [eggs_found] for the number of eggs found.]]></comment>
+                </field>
+                <field id="all_found_title" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Title for all found eggs</label>
+                </field>
+                <field id="all_found_message" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Message for all found eggs</label>
+                    <comment><![CDATA[Use [coupon_code] for the coupon code.]]></comment>
                 </field>
                 <field id="not_logged_in_users_title" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Title for not logged in users</label>

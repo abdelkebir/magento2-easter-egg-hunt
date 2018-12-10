@@ -1,58 +1,61 @@
-<?php
-/*
-if($this->isCustomerLoggedIn()){
-	$randomNumber = rand(1, 1);
-	if($randomNumber == 1){
-		$eggs = $this->getEggs();
-		foreach($eggs as $egg){
-			echo '<img data-egg="' . $egg . '" style="width:' . $this->getWidth() . 'px; height:' . $this->getheight() . 'px;"  src="' . $this->getImageUrl($egg) . '">';
-		}
-	}
-}
-*/
-?>
 <form id="saveeggcus" action="/eastereggs/easteregg/saveeggcus/">
 	<?= $block->getBlockHtml('formkey') ?>
 	<input type="hidden" name="egg_id" id="egg_id">
 </form>
-
-<div id="popup-modal-notloggedin" style="display: none;">
-	<?php echo $this->getNotLoggedInUsersMessage(); ?>
+<div id="popup-eggs-back" style="display: none;"></div>
+<div class="popup-eggs" id="popup-modal-foundanegg" style="display: none;" >
+	<div class="header"><?php echo $this->getFoundEggsTitle(); ?></div>
+	<div class="body"></div>
+	<span class="close">Ok</span>
 </div>
-
-
+<div class="popup-eggs" id="popup-modal-foundalleggs" style="display: none;">
+	<div class="header"><?php echo $this->getFoundAllEggsTitle(); ?></div>
+	<div class="body"></div>
+	<span class="close">Ok</span>
+</div>
+<div class="popup-eggs" id="popup-modal-notloggedin" style="display: none;">
+	<div class="header"><?php echo $this->getNotLoggedInUsersTitle(); ?></div>
+	<div class="body"><?php echo $this->getNotLoggedInUsersMessage(); ?></div>
+	<span class="close">Ok</span>
+</div>
 <script type="text/javascript">
-require(
-    [
+require([
         'jquery',
         'Magento_Ui/js/modal/modal',
         'domReady!'
-    ],
-    function ($, modal) {
-    	var allEggs = "<?php echo $this->getImages(); ?>";
-    	var savedEggs = "<?php echo $this->getSavedEggs(); ?>";
+    ],function ($, modal) {
+	  	$(".popup-eggs .close").on( "click", function() {
+  			$(this).parent().first().hide();
+    		$('#popup-eggs-back').hide();
+		});
+
+    	var allEggs = "<?php echo $this->getImages();?>";
+    	var savedEggs = "<?php echo $this->getSavedEggs();?>";
+    	var couponCode = "<?php echo $this->getCouponCode();?>";
     	allEggs = allEggs.split(",");
     	savedEggs = savedEggs.split(",");
-
-    	console.log('allEggs: '+allEggs);
-    	console.log('savedEggs: '+savedEggs);
-
+    	var allEggsHtml ='';
     	for(var i=0 ; i<allEggs.length ; i++){
+    		console.log('-----------------------------------------');
+    		console.log('i='+i+' allEggs[i]='+allEggs[i]);
     		var exist = false;
     		for(var j=0 ; j<savedEggs.length ; j++){
-    			if(savedEggs[j] == i){
+    			console.log('j='+j+' savedEggs[j]='+savedEggs[j]);
+    			if((savedEggs[j]!=="") && (savedEggs[j] == i)){
     				exist = true;
+    				console.log('exist = true');
     			}
     		}
     		if(exist){
-    			document.body.innerHTML = document.body.innerHTML.replace('[egg id="'+i+'"]', '');
+    			$('#description .product.attribute.description .value').first().html($('#description .product.attribute.description .value').first().html().replace('[egg id="'+i+'"]', ''));
     		}else{
-    			document.body.innerHTML = document.body.innerHTML.replace('[egg id="'+i+'"]', '<span class="easter-cntr" data-id="'+i+'"><img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+allEggs[i]+'"></span>');
+    			$('#description .product.attribute.description .value').first().html($('#description .product.attribute.description .value').first().html().replace('[egg id="'+i+'"]', '<span class="easter-cntr" data-id="'+i+'"><img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+allEggs[i]+'"></span>'));
     		}
-    		
-			
+    		allEggsHtml+='<img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+allEggs[i]+'">';
 		}
 		$('.easter-cntr').click(function(){
+			var currentElement = $(this);
+			var eggImage = currentElement.html();
 			<?php
 			if($this->isCustomerLoggedIn()){
 				?>
@@ -65,49 +68,100 @@ require(
 		            success: function (response) {
 	            		console.log('error: '+response.error);
                         console.log('message: '+response.message);
-                        console.log('foundEggs: '+response.foundEggs);
-                        console.log('numberEggs: '+response.numberEggs);
+                        console.log('numberFoundEggs: '+response.numberFoundEggs);
+                        if(response.error == 0){
+                        	if(response.numberFoundEggs < allEggs.length){
+                        		var message = '<?php echo $this->getFoundEggsMessage(); ?>';
+                        		message = message.replace("[eggs_found]", response.numberFoundEggs);
+                        		$("#popup-modal-foundanegg .body").html('<div class="fnd">'+eggImage+'</div>'+'<p>'+message+'</p>');
+                        		$("#popup-modal-foundanegg").show();
+								$("#popup-eggs-back").show();
+								currentElement.remove();
+                        	}else{
+                        		var message = '<?php echo $this->getFoundAllEggsMessage(); ?>';
+                        		message = message.replace("[coupon_code]", couponCode);
+                        		$("#popup-modal-foundalleggs .body").html('<div class="fnd">'+allEggsHtml+'</div>'+'<p>'+message+'</p>');
+                        		$("#popup-modal-foundalleggs").show();
+								$("#popup-eggs-back").show();
+								currentElement.remove();
+                        	}
+                        }
 		            },
 		            error: function (response) {
 		                console.log('error: '+response.error);
                         console.log('message: '+response.message);
-                        console.log('foundEggs: '+response.foundEggs);
+                        console.log('numberFoundEggs: '+response.numberFoundEggs);
 		            }
 		        });
 		        <?php
 			}else{
 				?>
-					var options = {
-		                type: 'popup',
-		                responsive: true,
-		                innerScroll: true,
-		                title: "<?php echo $this->getNotLoggedInUsersTitle(); ?>",
-		                buttons: [{
-		                    text: $.mage.__('Continue'),
-		                    class: '',
-		                    click: function () {
-		                        this.closeModal();
-		                    }
-		                }]
-		            };
-
-            		var popup = modal(options, $('#popup-modal-notloggedin'));
-            		$("#popup-modal-notloggedin .modal-footer").hide();
-					$("#popup-modal-notloggedin").modal("openModal");
+					$("#popup-modal-notloggedin").show();
+					$("#popup-eggs-back").show();
 				<?php
 			}
 			?>
-			$(this).remove();
 		});
 
     }
 );
 </script>
 <style type="text/css">
+	#popup-eggs-back {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0,0,0,0.6);
+		z-index: 100;
+	}
+	.popup-eggs {
+		width: 300px;
+		display: inline-block;
+		position: fixed;
+		z-index: 101;
+		top: calc(50% - 100px);
+		left: calc(50% - 160px);
+		background-color: #f9f9f9;
+		border: 1px solid #9a9a9a;
+		border-radius: 2px;
+	}
+	.popup-eggs .close {
+		line-height: 10px;
+		font-size: 14px;
+		cursor: pointer;
+		float: right;
+		display: inline-block;
+		width: 33px;
+		margin: 10px;
+		padding: 10px;
+		text-align: center;
+		background-color: #76c3fc;
+		border-radius: 3px;
+		border: 1px solid #3591de;
+		color: white;
+		font-weight: bold;
+	}
+	.popup-eggs .body {
+		padding: 10px;
+	}
+	.popup-eggs .header {
+		padding: 10px;
+		font-size: 16px;
+		background-color: #dedede;
+		font-weight: bold;
+	}
 	.easter-cntr{
 		cursor: pointer;
 	}
 	.easter-cntr img{
 		
+	}
+	.popup-eggs .body .fnd {
+		text-align: center;
+	}
+	.popup-eggs .body .fnd img {
+		margin: 0 4px;
 	}
 </style>
