@@ -36,20 +36,18 @@ require([
     	savedEggs = savedEggs.split(",");
     	var allEggsHtml ='';
     	for(var i=0 ; i<allEggs.length ; i++){
-    		console.log('-----------------------------------------');
-    		console.log('i='+i+' allEggs[i]='+allEggs[i]);
     		var exist = false;
     		for(var j=0 ; j<savedEggs.length ; j++){
-    			console.log('j='+j+' savedEggs[j]='+savedEggs[j]);
     			if((savedEggs[j]!=="") && (savedEggs[j] == i)){
     				exist = true;
-    				console.log('exist = true');
     			}
     		}
-    		if(exist){
-    			$('#description .product.attribute.description .value').first().html($('#description .product.attribute.description .value').first().html().replace('[egg id="'+i+'"]', ''));
-    		}else{
-    			$('#description .product.attribute.description .value').first().html($('#description .product.attribute.description .value').first().html().replace('[egg id="'+i+'"]', '<span class="easter-cntr" data-id="'+i+'"><img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+allEggs[i]+'"></span>'));
+    		if($('#description .product.attribute.description .value').lenght){
+    			if(exist){
+	    			$('#description .product.attribute.description .value').first().html($('#description .product.attribute.description .value').first().html().replace('[egg id="'+i+'"]', ''));
+	    		}else{
+	    			$('#description .product.attribute.description .value').first().html($('#description .product.attribute.description .value').first().html().replace('[egg id="'+i+'"]', '<span class="easter-cntr" data-id="'+i+'"><img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+allEggs[i]+'"></span>'));
+	    		}
     		}
     		allEggsHtml+='<img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+allEggs[i]+'">';
 		}
@@ -66,9 +64,6 @@ require([
 		            data: $('form#saveeggcus').serialize(),
 		            showLoader: true,
 		            success: function (response) {
-	            		console.log('error: '+response.error);
-                        console.log('message: '+response.message);
-                        console.log('numberFoundEggs: '+response.numberFoundEggs);
                         if(response.error == 0){
                         	if(response.numberFoundEggs < allEggs.length){
                         		var message = '<?php echo $this->getFoundEggsMessage(); ?>';
