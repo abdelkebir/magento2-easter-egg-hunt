@@ -12,10 +12,6 @@
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="density" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>Density</label>
-                    <comment>If set to 10 for example, the user will see randomly an egg in one page from 10 pages.</comment>
-                </field>
                 <field id="default_egg_width" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Default egg width</label>
                     <comment>Width in px, example: 50</comment>
