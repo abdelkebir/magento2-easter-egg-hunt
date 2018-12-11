@@ -4,7 +4,6 @@
         <easteregg>
             <general>
                 <enabled>1</enabled>
-                <density>100</density>
                 <default_egg_width>38</default_egg_width>
                 <default_egg_height>50</default_egg_height>
                 <images>im_1.png,im_2.png,im_3.png,im_4.png,im_5.png,im_6.png,im_7.png,im_8.png</images>
