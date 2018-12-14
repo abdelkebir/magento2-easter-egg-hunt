@@ -10,9 +10,10 @@
                 <not_logged_in_users_message>We are sorry, you should be logged in to use this functionality.</not_logged_in_users_message>
                 <not_logged_in_users_title>Not Logged In</not_logged_in_users_title>
                 <found_title>You have found an egg</found_title>
-                <found_message>You have found a total of [eggs_found] eggs</found_message>
+                <found_message>[eggs_found_count] of [eggs_all_count] eggs found.</found_message>
                 <all_found_title>All eggs found</all_found_title>
                 <all_found_message>You have found all the eggs! use coupon-code [coupon_code] in the shop for a 15% discount!</all_found_message>
+                <url>https://www.google.com</url>
             </general>
         </easteregg>
     </default>

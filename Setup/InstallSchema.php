@@ -25,6 +25,12 @@ class InstallSchema implements InstallSchemaInterface
             [],
             'Customer Id'
         )->addColumn(
+            'session_id',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            500,
+            [],
+            'Session Id'
+        )->addColumn(
             'egg_id',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             255,

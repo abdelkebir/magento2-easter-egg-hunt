@@ -37,25 +37,37 @@ class Saveeggcus extends \Magento\Framework\App\Action\Action {
         try{
             if($this->_formKeyValidator->validate($this->getRequest())){
             	$eggId = $this->getRequest()->getParam('egg_id');
-            	$customerId = $this->_customerSession->getCustomer()->getId();
+            	
             	$message = 'valid request';
             	$error = false;
             	$eggsList = $this->_scopeConfig->getValue("easteregg/general/images", "websites");
             	$eggsListArray = explode(",",$eggsList);
-
             	$numberEggs = count($eggsListArray);
-
-            	
             	$collectionCusEgg = $this->_eggcusCollectionFactory->create();
-				$collectionCusEgg->addFieldToFilter('customer_id', array('eq' => $customerId));
+                if($this->_customerSession->isLoggedIn()){
+                    $customerId = $this->_customerSession->getCustomer()->getId();
+                    $collectionCusEgg->addFieldToFilter('customer_id', array('eq' => $customerId));
+                }else{
+                    $sessionId = $this->_customerSession->getSessionId();
+                    $collectionCusEgg->addFieldToFilter('session_id', array('eq' => $sessionId));
+                }
+				
 				$collectionCusEgg->addFieldToFilter('egg_id', array('eq' => $eggId));
 				if($collectionCusEgg->getSize() == 0){
 					$eggcus = $this->_eggcusModel;
-					$eggcus->setCustomerId($customerId);
+                    if($this->_customerSession->isLoggedIn()){
+                        $eggcus->setCustomerId($customerId);
+                    }else{
+                        $eggcus->setSessionId($sessionId);
+                    }
 					$eggcus->setEggId($eggId);
 			        if($eggcus->save()){
 			        	$collectionCus = $this->_eggcusCollectionFactory->create();
-						$collectionCus->addFieldToFilter('customer_id', array('eq' => $customerId));
+                        if($this->_customerSession->isLoggedIn()){
+                            $collectionCus->addFieldToFilter('customer_id', array('eq' => $customerId));
+                        }else{
+                            $collectionCus->addFieldToFilter('session_id', array('eq' => $sessionId));
+                        }
 						foreach ($collectionCus as $eggcus) {
 							$foundEggs[$eggcus['egg_id']]=$eggsListArray[$eggcus['egg_id']];
 						}

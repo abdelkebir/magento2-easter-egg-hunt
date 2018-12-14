@@ -24,14 +24,22 @@ require([
         'Magento_Ui/js/modal/modal',
         'domReady!'
     ],function ($, modal) {
-	  	$(".popup-eggs .close").on( "click", function() {
-  			$(this).parent().first().hide();
-    		$('#popup-eggs-back').hide();
-		});
 
     	var allEggs = "<?php echo $this->getImages();?>";
     	var savedEggs = "<?php echo $this->getSavedEggs();?>";
     	var couponCode = "<?php echo $this->getCouponCode();?>";
+    	var redirectUrl = "<?php echo $this->getRedirectUrl();?>";
+
+
+    	$(".popup-eggs .close").on( "click", function() {
+  			$(this).parent().first().hide();
+    		$('#popup-eggs-back').hide();
+		});
+		$("#popup-modal-foundalleggs .close").on( "click", function() {
+  			window.location.replace(redirectUrl);
+		});
+
+
     	allEggs = allEggs.split(",");
     	savedEggs = savedEggs.split(",");
     	var allEggsHtml ='';
@@ -42,13 +50,29 @@ require([
     				exist = true;
     			}
     		}
-    		if($('#description .product.attribute.description .value').length){
-    			if(exist){
-	    			$('#description .product.attribute.description .value').first().html($('#description .product.attribute.description .value').first().html().replace('[egg id="'+i+'"]', ''));
-	    		}else{
-	    			$('#description .product.attribute.description .value').first().html($('#description .product.attribute.description .value').first().html().replace('[egg id="'+i+'"]', '<span class="easter-cntr" data-id="'+i+'"><img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+allEggs[i]+'"></span>'));
-	    		}
+    		if(exist){
+    			if($('#description .product.attribute.description .value').length){
+    				$('#description .product.attribute.description .value').first().html($('#description .product.attribute.description .value').first().html().replace('[egg id="'+i+'"]', ''));
+    			}
+    			if($('.cms-content').length){
+    				$('.cms-content').first().html($('.cms-content').first().html().replace('[egg id="'+i+'"]', ''));
+    			}
+    			$('.block').each(function( index ) {
+				  	$(this).html($(this).html().replace('[egg id="'+i+'"]', ''));
+				});
+				
+    		}else{
+    			if($('#description .product.attribute.description .value').length){
+    				$('#description .product.attribute.description .value').first().html($('#description .product.attribute.description .value').first().html().replace('[egg id="'+i+'"]', '<span class="easter-cntr" data-id="'+i+'"><img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+allEggs[i]+'"></span>'));
+    			}
+    			if($('.cms-content').length){
+    				$('.cms-content').first().html($('.cms-content').first().html().replace('[egg id="'+i+'"]', '<span class="easter-cntr" data-id="'+i+'"><img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+allEggs[i]+'"></span>'));
+    			}
+    			$('.block').each(function( index ) {
+				  	$(this).html($(this).html().replace('[egg id="'+i+'"]', '<span class="easter-cntr" data-id="'+i+'"><img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+allEggs[i]+'"></span>'));
+				});
     		}
+    		
     		allEggsHtml+='<img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+allEggs[i]+'">';
 		}
 		$('.easter-cntr').click(function(){
@@ -67,7 +91,44 @@ require([
                         if(response.error == 0){
                         	if(response.numberFoundEggs < allEggs.length){
                         		var message = '<?php echo $this->getFoundEggsMessage(); ?>';
-                        		message = message.replace("[eggs_found]", response.numberFoundEggs);
+                        		message = message.replace("[eggs_found_count]", response.numberFoundEggs);
+                        		message = message.replace("[eggs_all_count]", allEggs.length);
+                        		$("#popup-modal-foundanegg .body").html('<div class="fnd">'+eggImage+'</div>'+'<p>'+message+'</p>');
+                        		$("#popup-modal-foundanegg").show();
+								$("#popup-eggs-back").show();
+								currentElement.remove();
+                        	}else{
+                        		var message = '<?php echo $this->getFoundAllEggsMessage(); ?>';
+                        		message = message.replace("[coupon_code]", couponCode);
+                        		$("#popup-modal-foundalleggs .body").html('<div class="fnd">'+allEggsHtml+'</div>'+'<p>'+message+'</p>');
+
+                        		$("#popup-modal-foundalleggs").show();
+								$("#popup-eggs-back").show();
+								currentElement.remove();
+                        	}
+                        }
+		            },
+		            error: function (response) {
+		                console.log('error: '+response.error);
+                        console.log('message: '+response.message);
+                        console.log('numberFoundEggs: '+response.numberFoundEggs);
+		            }
+		        });
+		        <?php
+			} elseif ($this->isPublic()){
+				?>
+				$('#egg_id').val($(this).data('id'));
+				$.ajax({
+		            url: "/eastereggs/easteregg/saveeggcus/",
+		            type: "POST",
+		            data: $('form#saveeggcus').serialize(),
+		            showLoader: true,
+		            success: function (response) {
+                        if(response.error == 0){
+                        	if(response.numberFoundEggs < allEggs.length){
+                        		var message = '<?php echo $this->getFoundEggsMessage(); ?>';
+                        		message = message.replace("[eggs_found_count]", response.numberFoundEggs);
+                        		message = message.replace("[eggs_all_count]", allEggs.length);
                         		$("#popup-modal-foundanegg .body").html('<div class="fnd">'+eggImage+'</div>'+'<p>'+message+'</p>');
                         		$("#popup-modal-foundanegg").show();
 								$("#popup-eggs-back").show();
@@ -88,8 +149,8 @@ require([
                         console.log('numberFoundEggs: '+response.numberFoundEggs);
 		            }
 		        });
-		        <?php
-			}else{
+				<?php
+			} else{
 				?>
 					$("#popup-modal-notloggedin").show();
 					$("#popup-eggs-back").show();
