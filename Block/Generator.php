@@ -34,7 +34,14 @@ class Generator extends \Magento\Framework\View\Element\Template
 		return implode(",",$savedEggs);
 	}
 	public function getCouponCode(){
-		return $this->getConfig("easteregg/general/discount_code");
+		if($this->isCustomerLoggedIn()){
+			return $this->getConfig("easteregg/general/discount_code_registred");
+		}else{
+			return $this->getConfig("easteregg/general/discount_code_guests");
+		}
+	}
+	public function getRedirectUrl(){
+		return $this->getConfig("easteregg/general/url");
 	}
 	public function getFoundEggsTitle(){
 		return $this->getConfig("easteregg/general/found_title");
@@ -47,6 +54,9 @@ class Generator extends \Magento\Framework\View\Element\Template
 	}
 	public function getFoundAllEggsMessage(){
 		return $this->getConfig("easteregg/general/all_found_message");
+	}
+	public function isPublic(){
+		return $this->getConfig("easteregg/general/public");
 	}
    	public function isCustomerLoggedIn(){
 	    return $this->_customerSession->isLoggedIn();
