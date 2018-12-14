@@ -54,23 +54,29 @@ require([
     			if($('#description .product.attribute.description .value').length){
     				$('#description .product.attribute.description .value').first().html($('#description .product.attribute.description .value').first().html().replace('[egg id="'+i+'"]', ''));
     			}
-    			if($('.cms-content').length){
-    				$('.cms-content').first().html($('.cms-content').first().html().replace('[egg id="'+i+'"]', ''));
+    			if($('.column.main').length){
+    				$('.column.main').first().html($('.column.main').first().html().replace('[egg id="'+i+'"]', ''));
     			}
     			$('.block').each(function( index ) {
 				  	$(this).html($(this).html().replace('[egg id="'+i+'"]', ''));
 				});
+				if($('.page-title-wrapper').length){
+    				$('.page-title-wrapper').first().html($('.page-title-wrapper').first().html().replace('[egg id="'+i+'"]', ''));
+    			}
 				
     		}else{
     			if($('#description .product.attribute.description .value').length){
     				$('#description .product.attribute.description .value').first().html($('#description .product.attribute.description .value').first().html().replace('[egg id="'+i+'"]', '<span class="easter-cntr" data-id="'+i+'"><img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+allEggs[i]+'"></span>'));
     			}
-    			if($('.cms-content').length){
-    				$('.cms-content').first().html($('.cms-content').first().html().replace('[egg id="'+i+'"]', '<span class="easter-cntr" data-id="'+i+'"><img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+allEggs[i]+'"></span>'));
+    			if($('.column.main').length){
+    				$('.cms-content').first().html($('.column.main').first().html().replace('[egg id="'+i+'"]', '<span class="easter-cntr" data-id="'+i+'"><img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+allEggs[i]+'"></span>'));
     			}
     			$('.block').each(function( index ) {
 				  	$(this).html($(this).html().replace('[egg id="'+i+'"]', '<span class="easter-cntr" data-id="'+i+'"><img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+allEggs[i]+'"></span>'));
 				});
+				if($('.page-title-wrapper').length){
+    				$('.page-title-wrapper').first().html($('.page-title-wrapper').first().html().replace('[egg id="'+i+'"]', '<span class="easter-cntr" data-id="'+i+'"><img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+allEggs[i]+'"></span>'));
+    			}
     		}
     		
     		allEggsHtml+='<img style="width:<?php echo $this->getWidth(); ?>px; height:<?php echo $this->getheight(); ?>px;" src="/pub/media/eastereggs/'+allEggs[i]+'">';
